@@ -1,3 +1,4 @@
+import { expiryTime } from "../config/constant.js";
 import redisClient from "../config/redis.js";
 
 const getNews = async (req,res)=>{
@@ -9,16 +10,16 @@ const getNews = async (req,res)=>{
             const day = String(date.getUTCDate()).padStart(2, '0');
         const fullDate = `${year}-${month}-${day}`
         const url = `https://newsapi.org/v2/top-headlines?country=us&from=${fullDate}&sortBy=popularity&limit=3&apiKey=${process.env.NEW_API_KEY}`
-        let redisHit = '';
+        let redisHit;
         try{
             redisHit = await redisClient.get(url)
         }catch(error){
             console.log('redis not working')
         }
-        if(redisHit !=''){
+        if(redisHit){
             return res.status(200).json({
-                message:"issue with api response",
-                data: redisHit
+                message:"news (redis)",
+                data: JSON.parse(redisHit)
             })
         }
         const news = await fetch(url)
@@ -31,7 +32,7 @@ const getNews = async (req,res)=>{
         }
         const newsData = await news.json();
         try{
-            await redisClient.set(url,newsData)
+            await redisClient.set(url,JSON.stringify(newsData),{EX:expiryTime})
         }catch(error){
             console.log("redis not setup")
         }

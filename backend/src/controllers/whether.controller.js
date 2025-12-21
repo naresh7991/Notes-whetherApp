@@ -1,3 +1,4 @@
+import { expiryTime } from '../config/constant.js';
 import redisClient from '../config/redis.js'
 const getWhether = async(req,res)=>{
     try{
@@ -31,7 +32,7 @@ const getWhether = async(req,res)=>{
             })
         }
         try{
-            await redisClient.set(whetherApi,whetherData,{ EX: 300 })
+            await redisClient.set(whetherApi,whetherData,{ EX: expiryTime })
         }catch(error){
             console.log("redis not setup")
         }
@@ -79,7 +80,7 @@ try{
         }
         const whetherData = await currentWhether.json()
         try{
-            await redisClient.set(whetherApi,whetherData,{EX:300})
+            await redisClient.set(whetherApi,whetherData,{EX:expiryTime})
         }catch(error){
             console.log("redis not setup")
         }
