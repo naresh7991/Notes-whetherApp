@@ -1,0 +1,8 @@
+## get news api
+GET http://localhost:4000/api/news/latest
+
+### get currentWhether
+GET http://localhost:4000/api/whether/currentWhether
+
+### get currentAQI
+GET http://localhost:4000/api/whether/currentAQI
