@@ -1,0 +1,22 @@
+name: deployement
+on: [push]
+
+jobs:
+ build:
+  runs-on: self-hosted
+  steps:
+   - name: copy code locally
+     uses: actions/checkout@v3
+   
+   - name: write secrets to env file
+     uses: |
+      echo "BUILD=${{ secrets.BUILD}}" > backend/.env 
+      echo "PORT=${{secrets.PORT}}" > backend/.env
+   
+   - name: running docker compose
+     run: docker compose up -d
+   
+   - name: cleaning env variables
+     run: rm -f .env
+     
+  
