@@ -4,7 +4,9 @@ WORKDIR /backend
 
 COPY ./package*.json ./
 
-RUN . .
+RUN npm ci
+
+COPY . .
 
 EXPOSE 4000
 

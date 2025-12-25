@@ -1,19 +1,13 @@
-FROM node:22-alpine as Build
-
+#creating a build image
+FROM node:22-alpine AS build
 WORKDIR /frontend
-
-COPY ./package*.json .
-
+COPY package*.json ./
 RUN npm ci
-
 COPY . .
+RUN npm run build
 
-RUN npm run Build
-
+#creating a serve image
 FROM nginx:alpine
-
-COPY --from=build /frontend/dist /user/share/nginx/html
-
+COPY --from=build /frontend/dist /usr/share/nginx/html
 EXPOSE 80
-
 CMD ["nginx","-g","daemon off;"]
