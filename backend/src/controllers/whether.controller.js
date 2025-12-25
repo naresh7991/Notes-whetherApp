@@ -8,7 +8,7 @@ const getWhether = async(req,res)=>{
             "country": "IN",
             "state": "Haryana"
         }
-        const whetherApi =`https://api.openweathermap.org/data/2.5/weather?lat=${cordinate.lat}&lon=${cordinate.lon}&appid=${process.env.WHETHER_API_KEY}`
+        let whetherApi =`https://api.openweathermap.org/data/2.5/weather?lat=${cordinate.lat}&lon=${cordinate.lon}&appid=`
         
         let redisHit;
         try{
@@ -19,11 +19,11 @@ const getWhether = async(req,res)=>{
         if(redisHit){
             return res.status(200).json({
                 message:"fetch whether (redis)",
-                data: redisHit
+                data: JSON.parse(redisHit)
             })
         }
-
-        const currentWhether = await fetch(whetherApi)
+        let completeUrl = whetherApi + process.env.WHETHER_API_KEY;
+        const currentWhether = await fetch(completeUrl)
         const whetherData = await currentWhether.json()
         if(!currentWhether.ok){
             return res.status(400).json({
@@ -32,7 +32,7 @@ const getWhether = async(req,res)=>{
             })
         }
         try{
-            await redisClient.set(whetherApi,whetherData,{ EX: expiryTime })
+            await redisClient.set(whetherApi,JSON.stringify(whetherData),{ EX: expiryTime })
         }catch(error){
             console.log("redis not setup")
         }
@@ -56,7 +56,7 @@ try{
             "country": "IN",
             "state": "Haryana"
         }
-        const whetherApi =`https://api.openweathermap.org/data/2.5/air_pollution?lat=${cordinate.lat}&lon=${cordinate.lon}&appid=${process.env.WHETHER_API_KEY}`
+        const whetherApi =`https://api.openweathermap.org/data/2.5/air_pollution?lat=${cordinate.lat}&lon=${cordinate.lon}&appid=`
         
         let redisHit;
         try{
@@ -67,11 +67,11 @@ try{
         if(redisHit){
             return res.status(200).json({
                 message:"fetch whether (redis)",
-                data: redisHit
+                data: JSON.parse(redisHit)
             })
         }
-        
-        const currentWhether = await fetch(whetherApi)
+        const completeUrl = whetherApi+process.env.WHETHER_API_KEY;
+        const currentWhether = await fetch(completeUrl)
         if(!currentWhether.ok){
             return res.status(400).json({
                 messsage:"issue with whether api",
@@ -80,7 +80,7 @@ try{
         }
         const whetherData = await currentWhether.json()
         try{
-            await redisClient.set(whetherApi,whetherData,{EX:expiryTime})
+            await redisClient.set(whetherApi,JSON.stringify(whetherData),{EX:expiryTime})
         }catch(error){
             console.log("redis not setup")
         }

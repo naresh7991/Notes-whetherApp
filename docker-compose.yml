@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  redis:
+   image: redis:7
+   container_name: redis
+   networks:
+    - backend-redis-net
+  
+  backend:
+   build: ./backend
+   container_name: backend
+   ports:
+    - "4000:4000"
+   depends_on:
+    - redis
+   env_file:
+    - ./backend/.env
+   networks:
+    - backend-redis-net
+    - frontend-backend-net
+  
+  frontend:
+   build: ./frontend
+   container_name: frontend
+   ports:
+    - "8080:80"
+   depends_on:
+    - backend
+   networks:
+    - frontend-backend-net
+
+networks:
+  backend-redis-net:
+   driver: bridge
+  frontend-backend-net:
+   driver: bridge   
+  
+    

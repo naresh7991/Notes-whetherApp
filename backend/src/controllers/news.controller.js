@@ -9,7 +9,7 @@ const getNews = async (req,res)=>{
             const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based!
             const day = String(date.getUTCDate()).padStart(2, '0');
         const fullDate = `${year}-${month}-${day}`
-        const url = `https://newsapi.org/v2/top-headlines?country=us&from=${fullDate}&sortBy=popularity&limit=3&apiKey=${process.env.NEW_API_KEY}`
+        let url = `https://newsapi.org/v2/top-headlines?country=us&from=${fullDate}&sortBy=popularity&limit=3&apiKey=`
         let redisHit;
         try{
             redisHit = await redisClient.get(url)
@@ -22,7 +22,8 @@ const getNews = async (req,res)=>{
                 data: JSON.parse(redisHit)
             })
         }
-        const news = await fetch(url)
+        const completeUrl = url + process.env.NEW_API_KEY;
+        const news = await fetch(completeUrl)
         if(!news.ok){
             const newsData = await news.json()
             return res.status(400).json({
