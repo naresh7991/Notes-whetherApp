@@ -10,8 +10,8 @@ jobs:
    
    - name: write secrets to env file
      uses: |
-      echo "BUILD=${{ secrets.BUILD}}" > backend/.env 
-      echo "PORT=${{secrets.PORT}}" > backend/.env
+      echo "BUILD=${{ secrets.BUILD }}" > backend/.env 
+      echo "PORT=${{ secrets.PORT }}" > backend/.env
    
    - name: running docker compose
      run: docker compose up -d
