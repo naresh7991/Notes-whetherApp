@@ -9,7 +9,7 @@ jobs:
      uses: actions/checkout@v3
    
    - name: write secrets to env file
-     uses: |
+     run: |
       echo "BUILD=${{ secrets.BUILD }}" > backend/.env 
       echo "PORT=${{ secrets.PORT }}" > backend/.env
    
