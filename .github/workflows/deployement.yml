@@ -11,17 +11,17 @@ jobs:
    - name: write secrets to env file
      run: |
       echo "BUILD=${{ secrets.BUILD }}" > backend/.env 
-      echo "PORT=${{ secrets.PORT }}" > backend/.env
-      echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" > backend/.env
-      echo "NEW_API_KEY=${{ secrets.NEW_API_KEY }}" > backend/.env
-      echo "REDIS_URL=${{ secrets.REDIS_URL }}" > backend/.env
-      echo "USE_REDIS=${{ secrets.USE_REDIS }}" > backend/.env
-      echo "WHETHER_API_KEY=${{ secrets.WHETHER_API_KEY }}" > backend/.env
+      echo "PORT=${{ secrets.PORT }}" >> backend/.env
+      echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> backend/.env
+      echo "NEW_API_KEY=${{ secrets.NEW_API_KEY }}" >> backend/.env
+      echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> backend/.env
+      echo "USE_REDIS=${{ secrets.USE_REDIS }}" >> backend/.env
+      echo "WHETHER_API_KEY=${{ secrets.WHETHER_API_KEY }}" >> backend/.env
    
    - name: running docker compose
      run: docker compose up -d
    
    - name: cleaning env variables
-     run: rm -f .env
+     run: rm -f backend/.env
      
   
