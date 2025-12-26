@@ -49,7 +49,7 @@ export const signInUser = async(req,res)=>{
                 message:"user Not found!"
             })
         }
-        if(!comparePass(password,user.password)){
+        if(! await comparePass(password,user.password)){
             return res.status(401).json({
                     message:"password Incorrect!"
             })
