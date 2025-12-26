@@ -5,7 +5,7 @@ import NewsCarousel from '../components/News/NewsDisplay'
 
 const Dashboard:React.FC = () => {
   return (
-    <div className=''>
+    <div className='flex-1'>
         <div className='text-xl font-bold pl-8 pt-8'>Today Weather:</div>
       <div className='flex justify-start fit-content gap-5'>
       <WeatherFetcher/>

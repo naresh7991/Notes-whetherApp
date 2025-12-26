@@ -1,6 +1,7 @@
 // src/components/WeatherFetcher.jsx
 import React, { useState, useEffect } from "react";
 import WeatherDisplay from "./WhetherDisplay";
+import { backend_url } from "../../utils";
 
 const WeatherFetcher:React.FC = () => {
   const [weather, setWeather] = useState(null);
@@ -9,10 +10,11 @@ const WeatherFetcher:React.FC = () => {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/whether/currentWhether`
+          `${backend_url}/api/whether/currentWhether`,{
+            credentials: "include",
+          }
         );
         const data = await response.json();
-        console.log(data.data)
         setWeather(data.data);
       } catch (error) {
         console.error("Error fetching weather:", error);

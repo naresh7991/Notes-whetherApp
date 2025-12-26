@@ -1,8 +1,29 @@
 ## get news api
 GET http://localhost:4000/api/news/latest
 
+
 ### get currentWhether
 GET http://localhost:4000/api/whether/currentWhether
+Cookie: sessionId=dc55a043-bcff-45a7-beb6-d29217f4db1d
 
 ### get currentAQI
 GET http://localhost:4000/api/whether/currentAQI
+
+### create User
+POST http://localhost:4000/api/user/register
+Content-Type: application/json
+
+{
+    "username": "johnny",
+    "email":"johnny@email.com",
+    "password":"johnny@123"
+}
+
+### user login
+POST http://localhost:4000/api/user/signin
+Content-Type: application/json
+
+{
+    "email":"johnny@email.com",
+    "password":"johnny@123"
+}

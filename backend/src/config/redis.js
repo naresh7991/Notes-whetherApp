@@ -29,6 +29,16 @@ else {
                 store.set(key, entry); 
             } 
         }, 
+        async del(key){
+            { 
+                const deleted = store.delete(key)
+                if(deleted){
+                    return 1
+                }else{
+                    return 0
+                }
+            }
+        },
         async ttl(key) {
             const entry = store.get(key); 
             if (!entry || !entry.expireAt) return -1; 

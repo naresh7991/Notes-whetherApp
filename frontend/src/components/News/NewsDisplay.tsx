@@ -1,5 +1,6 @@
 // src/components/NewsCarousel.tsx
 import React, { useState, useEffect } from "react";
+import { backend_url } from "../../utils";
 
 interface NewsArticle {
   source: { id: string | null; name: string };
@@ -19,7 +20,9 @@ const NewsCarousel: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/news/latest");
+        const response = await fetch(`${backend_url}/api/news/latest`,{
+          credentials: "include",
+        });
         const json = await response.json();
         setArticles(json.data.articles || []);
       } catch (error) {
